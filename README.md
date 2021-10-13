@@ -4,10 +4,10 @@ Dette repoet kan brukes som et utgangspunkt for fagdagen "Praktisk bruk av Azure
 
 Azure tjenester som benyttes i dette repo-et:
 
-- App registration
-- Static Web app
-- App Service
-- Application Insight
+- Azure App registration
+- Azure Static Web app
+- Azure App Service
+- Azure Application Insight
 - Azure Function
 - Azure Key Vault
 - Azure Service Bus
@@ -16,12 +16,13 @@ Azure tjenester som benyttes i dette repo-et:
 
 # Azure arkitektur
 
-Nedefor vises Azure-tjenestene som er i bruk
-![My Diagram](azure.drawio.svg)
+Nedefor vises Azure-tjenestene som er i bruk og samspilltet dem i mellom:
+
+![Azure arkitektur](azure.drawio.svg)
 
 ## Kode
 
-Repo-et inneholder backend- og frontendkode. Koden er først og fremst tilgjengelig for å ha noe å deploye til de ulike tjenestene og er ikke ment for produksjon.
+Repo-et inneholder backend- og frontendkode. Koden er først og fremst tenkt som eksempelkode som kan deployes på fagdagen for å vise ulike tjenester i Azure og er ikke ment for produksjon.
 
 ## Backend
 
@@ -39,15 +40,15 @@ API for å hente ut værvarsel for gitt lokasjon (lat, long). Benytter [Yrs Api]
 
 Inneholder Azure functioner
 
-### negotiate (Http-triggered)
+#### negotiate (Http-triggered)
 
 Benyttes for å få tilgang til Azure SignalR Serice
 
-### notifications-queue (servie bus triggered)
+#### notifications-queue (servie bus triggered)
 
 Kjøres når nye meldinger kommer. Lagre subscription data (flyplass, flight og brukerid) i Azure Table Storage. Benytter Azure SignalR Service for å registrere flight og bruker-id og dermed få notifikasjoner når en flight endres (mutlicast)
 
-### flight-monitor (time triggered)
+#### flight-monitor (time triggered)
 
 Kjøres hvert 3. minutt og sjekker endring (per nå kun mocket). Henter opp subscription informasjon fra Azure Table Storage og sender ut notfikasjoner via Azure SignalR Service.
 
