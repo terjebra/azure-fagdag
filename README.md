@@ -18,7 +18,7 @@ Azure tjenester som benyttes i dette repo-et:
 
 Nedefor vises Azure-tjenestene som er i bruk og samspilltet dem i mellom:
 
-![Azure arkitektur](azure.png)
+![Azure arkitektur](azure.drawio.svg)
 
 ## Kode
 
