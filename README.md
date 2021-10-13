@@ -1,61 +1,91 @@
-# Azure fagdag
+# WebApp, API, Service Bus, SignalR og Azure Functions
 
-Dette repoet kan brukes som et utgangspunkt for fagdagen "Praktisk bruk av Azure".
+Denne branchen fortsetter fra forrige. I denne branchen brukes Azure Service Bus, SignalR
+Azure Functions (time, http, and service bus triggere) samt Azure Table Storage
 
-Azure tjenester som benyttes i dette repo-et:
+### Azure konfigurasjon
 
-- Azure App registration
-- Azure Static Web app
-- Azure App Service
-- Azure Application Insight
-- Azure Function
-- Azure Key Vault
-- Azure Service Bus
-- Azure SignalR Service
-- Azure Table Storage
+### Portal
 
-# Azure arkitektur
+Logg inn i [Azure portal](https://portal.azure.com/#home). Forutsetter at
+ressursgruppe og ressurser fra **01-webapp-and-webapi** er opprettet. Hvis ikke se README.
 
-Nedefor vises Azure-tjenestene som er i bruk og samspilltet dem i mellom:
+For navngiving se [her](https://docs.microsoft.com/en-us/azure/cloud-adoption-framework/ready/azure-best-practices/resource-abbreviations)
 
-![Azure arkitektur](azure.drawio.svg)
+- Opprett Azure SignalR Service (serverless)
+- **sigr-`<navn>`**
+  ![Signalr](signalr.png)
+- Opprett Storage account
+  - **st`<navn>`** (merk ikke tillatt med "-")
+    ![Stb](stb.png)
+- Opprett Service Bus ressurser
 
-## Kode
+  - Namespace:
+    - **sb-`<navn>`**
+      ![Sb](sb.png)
+  - Queue(flight-notifications-queue):
+    ![queue](queue.png)
 
-Repo-et inneholder backend- og frontendkode. Koden er først og fremst tenkt som eksempelkode som kan deployes på fagdagen for å vise ulike tjenester i Azure og er ikke ment for produksjon.
+- Opprett Function App (**Hosting**: velg storage account-en som allerede er opprettet. **Monitoring**: velg Application insight som er oppprett tidligere. Velg App Service plan som ble opprettet tidligere)
+  - **func-`<navn>`**
+    ![func](func.png)
 
-## Backend
+Dette gir da følgende innhold i ressurs-gruppen:
 
-### Flight.Api
+![Ressursgruppeinnhold](resource-group.png)
 
-API for å hente ut flyplasser, statuser og flyinformasjon. Benytter [Avinors Api](https://avinor.no/en/corporate/services/flydata/flydata-i-xml-format). Dette API-et benyttes av web-appen.
+## Key-vault
 
-Tilbyr også et endepunkt for å få notifikasjoner når en flight endrer seg
+Legge inn connection strings fra SignalR, Storage Account og Service Bus (Kan gjerne lag ny shared access policy med begrensede rettighter) i Key-vault og gi dem følgende navn:
 
-### Weather.Api
+- AzureSignalRConnectionString
+- AzureWebJobsStorage
+- ServiceBus--ConnectionString
+- ServiceBus--QueueName
 
-API for å hente ut værvarsel for gitt lokasjon (lat, long). Benytter [Yrs Api](https://developer.yr.no/doc/GettingStarted/)
+### Konfigurere Function App
 
-### Notification
+#### Key-vault
 
-Inneholder Azure functioner
+- Under "Access policies" -> Legg til ny (Se branch 01 for hvordan dette gjøres). Søk opp navn på func eller eller benytte service principal id
 
-#### negotiate (Http-triggered)
+### App setting
 
-Benyttes for å få tilgang til Azure SignalR Serice
+Legg til Key-vault referanse i **Application Settings** underer **Configuration**:
 
-#### notifications-queue (servie bus triggered)
+- AzureSignalRConnectionString
+- AzureWebJobsStorage
+- AzureWebJobsServiceBus (benytt ServiceBus--ConnectionString)
+- QueueName benytt (ServiceBus--QueueName)
 
-Kjøres når nye meldinger kommer. Lagre subscription data (flyplass, flight og brukerid) i Azure Table Storage. Benytter Azure SignalR Service for å registrere flight og bruker-id og dermed få notifikasjoner når en flight endres (mutlicast)
+For hver av dem referer til Key-vault slik:
 
-#### flight-monitor (time triggered)
+```
+@Microsoft.KeyVault(VaultName=myvault;SecretName=mysecret)
+```
 
-Kjøres hvert 3. minutt og sjekker endring (per nå kun mocket). Henter opp subscription informasjon fra Azure Table Storage og sender ut notfikasjoner via Azure SignalR Service.
+Dersom func-en har rettigheter til å lese fra key-vault vil det se slik ut
+![Config](func-config.png)
 
-## Frontend
+## CORS
 
-En enkel webapp skrevet i ReactJS og TypeScript. Benytter Azure SignalR Service for notifikasjoner og Flight API.
+Legg inn url til frontend eller \* (!)
 
-## Ressurser
+## Git hub actions
 
-[Microsofts learning paths](https://docs.microsoft.com/en-us/learn/browse) er en godt start. Ellers finner man bra dokumentasjon generalt på Microsoft sine sider.
+LEgg til ny miljævariebel i github workflow:
+**REACT_APP_SIGNAL_R_NEGOTIATE_URL**
+
+Urlen er på formatet: **https://<funcnavn>/api/flightnotifications/negotiate/**
+
+(flightnotifications er hubnavn)
+
+## Deploy kode
+
+### Visual studio 2019
+
+Benytt publish både på "Flight.API" og så på "Notification".
+
+## Table storage
+
+![Table storage](table-storage.png)
