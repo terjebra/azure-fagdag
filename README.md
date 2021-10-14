@@ -96,7 +96,4 @@ Logg inn i Visual Studio med Bouvet-bruker og hhøreklikk på prosjektet og tryk
 
 ## Frontend (Visual Code)
 
-Installer [Azure Static Web Apps extension](https://marketplace.visualstudio.com/items?itemName=ms-azuretools.vscode-azurestaticwebapps)
-
-Logg inn via extensions og velg "fanen" \*_Static Web Apps_
-![Vs Code ](vs-code.png)
+Endre kode i repo som er knyttet til Azure Static WebApp og push. Da kjøre CI/CD pipeline.
