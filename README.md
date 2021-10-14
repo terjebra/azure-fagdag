@@ -38,7 +38,7 @@ API for å hente ut værvarsel for gitt lokasjon (lat, long). Benytter [Yrs Api]
 
 ### Notification
 
-Inneholder Azure functioner
+Inneholder Azure Functions som benyttes for å sette opp SignalR-forbindelse, for å håndtere subscriptions og sende ut notfikasjosner.
 
 #### negotiate (Http-triggered)
 
