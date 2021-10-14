@@ -18,7 +18,7 @@ Azure tjenester som benyttes i dette repo-et:
 
 Nedefor vises Azure-tjenestene som er i bruk og samspilltet dem i mellom:
 
-![Azure arkitektur](azure.drawio.svg)
+![Azure arkitektur](azure.png)
 
 ## Kode
 
@@ -54,7 +54,7 @@ Kjøres hvert 3. minutt og sjekker endring (per nå kun mocket). Henter opp subs
 
 ## Frontend
 
-En enkel webapp skrevet i ReactJS og TypeScript. Benytter Azure SignalR Service for notifikasjoner og Flight API.
+En enkel webapp skrevet i ReactJS og TypeScript. Benytter Azure SignalR Service for notifikasjoner og Flight API for å hente flyplasser og flights.
 
 ## Ressurser
 
