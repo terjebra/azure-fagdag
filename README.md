@@ -66,3 +66,9 @@ For hver av dem referer til Key-vault slik:
 
 Dersom func-en har rettigheter til å lese fra key-vauylt vil det se slik ut
 ![Config](func-config.png)
+
+## Deploy kode
+
+### Visual studio 2019
+
+Benytt publish både på "Flight.API" og så på "Notification".

@@ -51,3 +51,5 @@ Ankh.NoLoad
 !/packages/*/lib/*/*.dll
 
 obj
+Properties/PublishProfiles
+Properties/ServiceDependencies
