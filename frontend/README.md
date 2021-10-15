@@ -15,7 +15,3 @@ npm install
 ```
 npm start
 ```
-
-## Config
-
-I public mappen ligger det **env-config.js**. Her legges URL-en til Flight.API inn.
