@@ -88,3 +88,14 @@ C:\code\azure-fagdag\backend\Flight.Api\bin\Debug\net5.0\Microsoft.Bcl.AsyncInte
 C:\code\azure-fagdag\backend\Flight.Api\bin\Debug\net5.0\Microsoft.Identity.Client.dll
 C:\code\azure-fagdag\backend\Flight.Api\bin\Debug\net5.0\Microsoft.Identity.Client.Extensions.Msal.dll
 C:\code\azure-fagdag\backend\Flight.Api\bin\Debug\net5.0\System.Memory.Data.dll
+C:\code\azure-fagdag\backend\Flight.Api\bin\Debug\net5.0\Azure.Security.KeyVault.Certificates.dll
+C:\code\azure-fagdag\backend\Flight.Api\bin\Debug\net5.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+C:\code\azure-fagdag\backend\Flight.Api\bin\Debug\net5.0\Microsoft.AspNetCore.Authentication.OpenIdConnect.dll
+C:\code\azure-fagdag\backend\Flight.Api\bin\Debug\net5.0\Microsoft.Identity.Web.dll
+C:\code\azure-fagdag\backend\Flight.Api\bin\Debug\net5.0\Microsoft.IdentityModel.JsonWebTokens.dll
+C:\code\azure-fagdag\backend\Flight.Api\bin\Debug\net5.0\Microsoft.IdentityModel.Logging.dll
+C:\code\azure-fagdag\backend\Flight.Api\bin\Debug\net5.0\Microsoft.IdentityModel.Protocols.dll
+C:\code\azure-fagdag\backend\Flight.Api\bin\Debug\net5.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+C:\code\azure-fagdag\backend\Flight.Api\bin\Debug\net5.0\Microsoft.IdentityModel.Tokens.dll
+C:\code\azure-fagdag\backend\Flight.Api\bin\Debug\net5.0\System.IdentityModel.Tokens.Jwt.dll
+C:\code\azure-fagdag\backend\Flight.Api\bin\Debug\net5.0\System.Text.Encodings.Web.dll

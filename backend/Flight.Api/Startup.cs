@@ -2,6 +2,7 @@ using System;
 using System.Reflection;
 using Flight.Api.Domain.Services.Avinor;
 using MediatR;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -49,6 +50,15 @@ namespace Flight.Api
             });
 
             services.AddApplicationInsightsTelemetry();
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(c =>
+                {
+                    c.TokenValidationParameters.ValidAudiences = new[]
+                    {
+                        Configuration.GetValue<string>("AzureAd:ClientId")
+                    };
+                    c.Authority = $"https://login.microsoftonline.com/{Configuration.GetValue<string>("AzureAd:TenantId")}";
+                });
 
         }
 
