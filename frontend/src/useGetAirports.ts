@@ -5,6 +5,7 @@ import { useAuth } from "./useAuth";
 
 export const useGetAirports = () => {
   const auth = useAuth();
+
   return useQuery<Airport[], Error>("airports", async () => {
     const response = await fetch(`${config.flightAPI}/airports`, {
       headers: {

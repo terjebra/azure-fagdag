@@ -26,7 +26,7 @@ For navngiving se [her](https://docs.microsoft.com/en-us/azure/cloud-adoption-fr
   - Queue(flight-notifications-queue):
     ![queue](queue.png)
 
-- Opprett Function App (**Hosting**: velg storage account-en som allerede er opprettet. **Monitoring**: velg Application insight som er oppprett tidligere)
+- Opprett Function App (**Hosting**: velg storage account-en som allerede er opprettet. **Monitoring**: velg Application insight som er oppprett tidligere. Velg App Service plan som ble opprettet tidligere)
   - **func-`<navn>`**
     ![func](func.png)
 
@@ -36,4 +36,33 @@ Dette gir da følgende innhold i ressurs-gruppen:
 
 ## Key-vault
 
-Legge inn connection strings fra SignalR og Service Bus i Key-vault:
+Legge inn connection strings fra SignalR, Storage Account (Access keys) og Service Bus (shared access key. Kan gjerne lag ny med begrensede rettighter) i Key-vault og gi dem følgende navn (secrets):
+
+- AzureSignalRConnectionString
+- AzureWebJobsStorage
+- ServiceBus--ConnectionString
+- ServiceBus--QueueName
+
+### Konfigurere Key-vault for Function App
+
+#### Key-vault
+
+- Under "Access policies" -> Legg til ny (Se branch 01 for hvordan dette gjøres). Søk opp navn på func eller eller benytte service principal id
+
+### Function App
+
+Legg til Key-vault referanse i **Application Settings** underer **Configuration**:
+
+- AzureSignalRConnectionString
+- AzureWebJobsStorage
+- AzureWebJobsServiceBus (benytt ServiceBus--ConnectionString)
+- QueueName benytt (ServiceBus--QueueName)
+
+For hver av dem referer til Key-vault slik:
+
+```
+@Microsoft.KeyVault(VaultName=myvault;SecretName=mysecret)
+```
+
+Dersom func-en har rettigheter til å lese fra key-vauylt vil det se slik ut
+![Config](func-config.png)

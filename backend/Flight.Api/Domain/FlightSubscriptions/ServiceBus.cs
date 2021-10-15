@@ -13,8 +13,7 @@ namespace Flight.Api.Domain.FlightSubscriptions
 
         public ServiceBus(IConfiguration configuration)
         {
-            _connectionString = configuration.GetValue<string>("ServiceBus:ConnectionStrings");
-            _queueName = configuration.GetValue<string>("ServiceBus:QueueName");
+            _connectionString = configuration.GetValue<string>("ServiceBus:ConnectionString"); _queueName = configuration.GetValue<string>("ServiceBus:QueueName");
         }
 
         public async Task SendMessage<T>(T message)

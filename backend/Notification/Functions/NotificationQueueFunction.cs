@@ -20,7 +20,7 @@ namespace Notification.Functions
         
         [FunctionName("notifications-queue")]
         public async Task NotificationQueueFunction(
-            [ServiceBusTrigger("flight-notifications-queue", Connection = "AzureWebJobsServiceBus")] 
+            [ServiceBusTrigger("%QueueName%", Connection = "AzureWebJobsServiceBus")] 
             string queueItem,
             [SignalR(HubName = "flightnotifications")]IAsyncCollector<SignalRGroupAction> signalRMessages,
             ILogger log)

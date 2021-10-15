@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Identity.Web;
 using Microsoft.OpenApi.Models;
 
 namespace Flight.Api
@@ -51,15 +52,15 @@ namespace Flight.Api
             });
 
             services.AddApplicationInsightsTelemetry();
+
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-                .AddJwtBearer(c =>
-                {
-                    c.TokenValidationParameters.ValidAudiences = new[]
-                    {
-                        Configuration.GetValue<string>("AzureAd:ClientId")
-                    };
-                    c.Authority = $"https://login.microsoftonline.com/{Configuration.GetValue<string>("AzureAd:ClientId")}";
-                });
+                .AddMicrosoftIdentityWebApi(Configuration.GetSection("AzureAd"));
+
+            //services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+            //    .AddJwtBearer(c =>
+            //    {
+            //        c.Authority = $"https://login.microsoftonline.com/c317fa72-b393-44ea-a87c-ea2728d963d";
+            //    });
 
             services.AddScoped<IServiceBus, ServiceBus>();
 
@@ -80,7 +81,7 @@ namespace Flight.Api
             app.UseRouting();
 
             app.UseCors(Cors);
-
+            
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
