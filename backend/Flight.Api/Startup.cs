@@ -1,5 +1,6 @@
 using System;
 using System.Reflection;
+using Flight.Api.Domain.FlightSubscriptions;
 using Flight.Api.Domain.Services.Avinor;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -57,8 +58,10 @@ namespace Flight.Api
                     {
                         Configuration.GetValue<string>("AzureAd:ClientId")
                     };
-                    c.Authority = $"https://login.microsoftonline.com/{Configuration.GetValue<string>("AzureAd:TenantId")}";
+                    c.Authority = $"https://login.microsoftonline.com/{Configuration.GetValue<string>("AzureAd:ClientId")}";
                 });
+
+            services.AddScoped<IServiceBus, ServiceBus>();
 
         }
 
