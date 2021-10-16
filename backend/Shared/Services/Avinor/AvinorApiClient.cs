@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
-using Flight.Api.Domain.Services.Avinor.Models;
-using Flight.Api.Extensions;
+using Shared.Extensions;
+using Shared.Services.Avinor.Models;
 
-namespace Flight.Api.Domain.Services.Avinor
+namespace Shared.Services.Avinor
 {
     public class AvinorApiClient : IAvinorApiClient
     {

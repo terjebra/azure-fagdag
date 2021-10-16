@@ -1,7 +1,6 @@
 using System;
 using System.Reflection;
 using Flight.Api.Domain.FlightSubscriptions;
-using Flight.Api.Domain.Services.Avinor;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -11,6 +10,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Identity.Web;
 using Microsoft.OpenApi.Models;
+using Shared.Services.Avinor;
 
 namespace Flight.Api
 {

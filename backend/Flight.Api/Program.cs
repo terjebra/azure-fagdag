@@ -11,21 +11,17 @@ namespace Avinor.Api
     {
         public static void Main(string[] args)
         {
+            
             CreateHostBuilder(args).Build().Run();
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
                 .ConfigureAppConfiguration((context, config) =>
-                {
-                    // To get it working locally
-                    if (!context.HostingEnvironment.IsDevelopment())
-                    {
-                        
-                        var builtConfig = config.Build();
-                        config.AddAzureKeyVault(new Uri(builtConfig.GetValue<string>("KeyVaultUrl")),
-                            new DefaultAzureCredential());
-                    }
+                { 
+                    var builtConfig = config.Build();
+                    config.AddAzureKeyVault(new Uri(builtConfig.GetValue<string>("KeyVaultUrl")),
+                        new DefaultAzureCredential());
                 })
                 .ConfigureWebHostDefaults(webBuilder =>
                 {

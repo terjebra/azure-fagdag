@@ -1,5 +1,5 @@
-import React, { useEffect } from "react";
-import { useAccount, useIsAuthenticated, useMsal } from "@azure/msal-react";
+import React from "react";
+// import { useAccount, useIsAuthenticated, useMsal } from "@azure/msal-react";
 type Dispatch = (action: Action) => void;
 
 export type State = {

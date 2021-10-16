@@ -2,8 +2,8 @@
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Flight.Api.Domain.Services.Avinor;
 using MediatR;
+using Shared.Services.Avinor;
 
 namespace Flight.Api.Domain.Airlines.Queries
 {
@@ -18,6 +18,7 @@ namespace Flight.Api.Domain.Airlines.Queries
             {
                 _avinorApiClient = avinorApiClient;
             }
+
             public async Task<IList<QueryAirline>> Handle(GetAirlines request, CancellationToken cancellationToken)
             {
                 var airlines = await _avinorApiClient.GetAirlines();

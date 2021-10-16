@@ -2,8 +2,8 @@
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Flight.Api.Domain.Services.Avinor;
 using MediatR;
+using Shared.Services.Avinor;
 
 namespace Flight.Api.Domain.Airports.Queries
 {

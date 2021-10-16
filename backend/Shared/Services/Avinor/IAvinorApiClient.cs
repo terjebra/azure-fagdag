@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Flight.Api.Domain.Services.Avinor.Models;
+using Shared.Services.Avinor.Models;
 
-namespace Flight.Api.Domain.Services.Avinor
+namespace Shared.Services.Avinor
 {
     public interface IAvinorApiClient
     {

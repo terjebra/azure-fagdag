@@ -3,7 +3,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 
-namespace Flight.Api.Extensions
+namespace Shared.Extensions
 {
     public static class HttpResponseMessageExtensions
     {

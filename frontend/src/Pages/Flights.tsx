@@ -6,6 +6,8 @@ import { formateTime, getStatusTitle } from "../utils";
 import { useGetAirports } from "../useGetAirports";
 import FlightLandIcon from "@mui/icons-material/FlightLand";
 import FlightTakeoffIcon from "@mui/icons-material/FlightTakeoff";
+import { useSubscribeToFlightChange } from "../useSubscribeToFlightChange";
+import FlashOnIcon from "@mui/icons-material/FlashOn";
 
 type RouteParams = {
   airport: string;
@@ -14,7 +16,7 @@ const Flights = () => {
   const { airport } = useParams<RouteParams>();
   const { data: flights } = useGetFlights(airport);
   const { data: airports } = useGetAirports();
-
+  const { mutate } = useSubscribeToFlightChange();
   return (
     <Container
       sx={{
@@ -58,6 +60,14 @@ const Flights = () => {
                       color={x.statusCode === "E" ? "error" : "info"}
                     ></Chip>
                   )}
+                </Box>
+                <Box gridColumn="6">
+                  <FlashOnIcon
+                    sx={{ cursor: "pointer" }}
+                    onClick={() => {
+                      mutate({ airport: airport, flightId: x.flightId });
+                    }}
+                  />
                 </Box>
               </Box>
             </Paper>

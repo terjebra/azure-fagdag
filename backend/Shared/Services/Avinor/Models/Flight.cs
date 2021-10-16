@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Xml.Serialization;
 
-namespace Flight.Api.Domain.Services.Avinor.Models
+namespace Shared.Services.Avinor.Models
 {
     public class Flight
     {
