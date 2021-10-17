@@ -24,6 +24,14 @@ const App = () => {
     });
   }, [connection]);
 
+  useEffect(() => {
+    const interval = setInterval(() => {
+      console.log("clear");
+      setNotifications([]);
+    }, 5000);
+    return () => clearInterval(interval);
+  }, []);
+
   const messages = notifications?.map((x) => {
     return <div key={x.flightId}>{`Changes for flight ${x.flightId}`}</div>;
   });
@@ -43,7 +51,7 @@ const App = () => {
           </Route>
         </Switch>
       </Router>
-      {messages.length > 0 && (
+      {notifications.length > 0 && (
         <Snackbar
           anchorOrigin={{ vertical: "top", horizontal: "left" }}
           open={isOpen}
