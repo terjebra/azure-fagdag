@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import { useAccount, useIsAuthenticated, useMsal } from "@azure/msal-react";
+import { config } from "./config";
 
 type Dispatch = (action: Action) => void;
 
@@ -64,10 +65,11 @@ const AuthProvider: React.FC = (props) => {
     if (account) {
       instance
         .acquireTokenSilent({
-          scopes: ["User.Read"],
+          scopes: [config.apiScope],
           account: account,
         })
         .then((response) => {
+          console.log(response.accessToken);
           dispatch({
             token: response.accessToken,
             type: ActionType.Authenticate,
