@@ -10,6 +10,10 @@ export const getStatusTitle = (status: string) => {
       return "Departed";
     case "E":
       return "New time";
+    case "C":
+      return "Cancelled";
+    case "N":
+      return "New info";
     default:
       return "-";
   }
