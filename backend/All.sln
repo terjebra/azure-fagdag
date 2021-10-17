@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Weather.Api", "Weather.Api\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Notification", "Notification\Notification.csproj", "{EFAF47C6-D215-476D-B9F8-6F9F56020996}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shared", "Shared\Shared.csproj", "{8F2EC776-4A28-4C5D-8385-435336653074}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shared", "Shared\Shared.csproj", "{8F2EC776-4A28-4C5D-8385-435336653074}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
