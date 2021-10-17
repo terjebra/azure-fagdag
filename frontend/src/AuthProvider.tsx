@@ -1,5 +1,6 @@
-import React from "react";
-// import { useAccount, useIsAuthenticated, useMsal } from "@azure/msal-react";
+import React, { useEffect } from "react";
+import { useAccount, useIsAuthenticated, useMsal } from "@azure/msal-react";
+import { config } from "./config";
 type Dispatch = (action: Action) => void;
 
 export type State = {
@@ -44,39 +45,41 @@ const authReducer = (_state: State, action: Action) => {
 };
 
 const AuthProvider: React.FC = (props) => {
-  // const { instance, accounts, inProgress } = useMsal();
-  // const isAuthenticated = useIsAuthenticated();
-  // const account = useAccount(accounts[0] || {});
-  // useEffect(() => {
-  //   if (!isAuthenticated && inProgress === "none") {
-  //     const login = async () => {
-  //       await instance.loginRedirect({
-  //         scopes: [
-  //           "User.Read",
-  //           "api://c71dfb8a-c3ed-4ffa-9056-ffeec249cae5/Read.All",
-  //         ],
-  //       });
-  //     };
+  const { instance, accounts, inProgress } = useMsal();
+  const isAuthenticated = useIsAuthenticated();
+  const account = useAccount(accounts[0] || {});
+  useEffect(() => {
+    if (!isAuthenticated && inProgress === "none") {
+      const login = async () => {
+        await instance.loginRedirect({
+          scopes: [
+            "User.Read",
+            "api://c71dfb8a-c3ed-4ffa-9056-ffeec249cae5/Read.All",
+          ],
+        });
+      };
 
-  //     login();
-  //   }
-  // }, [isAuthenticated, inProgress, instance]);
+      if (!config.disableAuth) {
+        login();
+      }
+    }
+  }, [isAuthenticated, inProgress, instance]);
 
-  // useEffect(() => {
-  //   if (account) {
-  //     instance
-  //       .acquireTokenSilent({
-  //         scopes: ["profile"],
-  //         account: account,
-  //       })
-  //       .then((response) => {
-  //         dispatch({
-  //           token: response.accessToken,
-  //           type: ActionType.Authenticate,
-  //         });
-  //       });
-  //   }
-  // }, [account, instance]);
+  useEffect(() => {
+    if (account) {
+      instance
+        .acquireTokenSilent({
+          scopes: ["profile"],
+          account: account,
+        })
+        .then((response) => {
+          dispatch({
+            token: response.accessToken,
+            type: ActionType.Authenticate,
+          });
+        });
+    }
+  }, [account, instance]);
 
   const [state, dispatch] = React.useReducer(authReducer, {
     isAuthenticated: true,

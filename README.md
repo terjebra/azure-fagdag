@@ -8,7 +8,7 @@ Azure Functions (time, http, and service bus triggere) samt Azure Table Storage
 ### Portal
 
 Logg inn i [Azure portal](https://portal.azure.com/#home). Forutsetter at
-ressursgruppe og ressurser fra **01-webapp-and-webapi** er opprettet. Hvis ikke se README.
+ressursgruppe og ressurser fra **01-webapp-and-webapi** er opprettet. Hvis ikke se README i branch 01.
 
 For navngiving se [her](https://docs.microsoft.com/en-us/azure/cloud-adoption-framework/ready/azure-best-practices/resource-abbreviations)
 
@@ -34,9 +34,9 @@ Dette gir da følgende innhold i ressurs-gruppen:
 
 ![Ressursgruppeinnhold](resource-group.png)
 
-## Key-vault
+## Key Vault
 
-Legge inn connection strings fra SignalR, Storage Account og Service Bus (Kan gjerne lag ny shared access policy med begrensede rettighter) i Key-vault og gi dem følgende navn:
+Legge inn connection strings fra SignalR, Storage Account og Service Bus (Kan gjerne lag ny shared access policy med begrensede rettighter) i Key Vault og gi dem følgende navn:
 
 - AzureSignalRConnectionString
 - AzureWebJobsStorage
@@ -45,40 +45,41 @@ Legge inn connection strings fra SignalR, Storage Account og Service Bus (Kan gj
 
 ### Konfigurere Function App
 
-#### Key-vault
+#### Key Vault
 
 - Under "Access policies" -> Legg til ny (Se branch 01 for hvordan dette gjøres). Søk opp navn på func eller eller benytte service principal id
 
 ### App setting
 
-Legg til Key-vault referanse i **Application Settings** underer **Configuration**:
+Legg til Key Vault referanse i **Application Settings** underer **Configuration**:
 
 - AzureSignalRConnectionString
 - AzureWebJobsStorage
 - AzureWebJobsServiceBus (benytt ServiceBus--ConnectionString)
 - QueueName benytt (ServiceBus--QueueName)
 
-For hver av dem referer til Key-vault slik:
+For hver av dem referer til Key Vault slik:
 
 ```
 @Microsoft.KeyVault(VaultName=myvault;SecretName=mysecret)
 ```
 
-Dersom func-en har rettigheter til å lese fra key-vault vil det se slik ut
+Dersom func-en har rettigheter til å lese fra Key Vault vil det se slik ut:
 ![Config](func-config.png)
 
 ## CORS
 
 Legg inn url til frontend eller \* (!)
 
-## Git hub actions
+## Frontend
 
-LEgg til ny miljævariebel i github workflow:
+Legg til ny miljøvariabel i github workflow:
+
 **REACT_APP_SIGNAL_R_NEGOTIATE_URL**
 
-Urlen er på formatet: **https://<funcnavn>/api/flightnotifications/negotiate/**
+Urlen er på formatet: **https://`<funcnavn>`/api/flightnotifications/negotiate/**
 
-(flightnotifications er hubnavn)
+(flightnotifications er navnet på hub-en)
 
 ## Deploy kode
 
@@ -87,5 +88,7 @@ Urlen er på formatet: **https://<funcnavn>/api/flightnotifications/negotiate/**
 Benytt publish både på "Flight.API" og så på "Notification".
 
 ## Table storage
+
+Alle subscriptions blir lagret her:
 
 ![Table storage](table-storage.png)

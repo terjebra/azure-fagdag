@@ -4,6 +4,7 @@ type Config = {
   tenantId: string;
   signalrNegoiateUrl: string;
   userId: string;
+  disableAuth: boolean;
 };
 
 const config: Config = {
@@ -18,6 +19,7 @@ const config: Config = {
       ? "https://func-flights-fagdag-terje.azurewebsites.net/api/flightnotifications/negotiate/"
       : (process.env.REACT_APP_SIGNAL_R_NEGOTIATE_URL as string),
   userId: Math.random().toString(36).substr(2, 9),
+  disableAuth: true,
 };
 
 export { config };
