@@ -38,12 +38,13 @@ namespace Shared.Services.Avinor
         {
             var requestUri = $"XmlFeed.asp?airport={airport.ToUpper()}";
             
+
             if (lastUpdated != null)
             {
                 requestUri += $"&lastUpdate={lastUpdated.Value:s}";
             }
             var responseMessage = await _client.GetAsync(requestUri);
-                var statusList = await responseMessage.Deserialize<AirportFlightsRoot>();
+            var statusList = await responseMessage.Deserialize<AirportFlightsRoot>();
             return statusList.AirportFlights.Flights;
         }
     }

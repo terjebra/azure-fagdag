@@ -7,8 +7,7 @@ Azure Functions (time, http, and service bus triggere) samt Azure Table Storage
 
 ### Portal
 
-Logg inn i [Azure portal](https://portal.azure.com/#home). Forutsetter at
-ressursgruppe og ressurser fra **01-webapp-and-webapi** er opprettet. Hvis ikke se README i branch 01.
+Logg inn i [Azure portal](https://portal.azure.com/#home). Forutsetter at ressursgruppe og ressurser fra **01-webapp-and-webapi** er opprettet. Hvis ikke se README i branch 01.
 
 For navngiving se [her](https://docs.microsoft.com/en-us/azure/cloud-adoption-framework/ready/azure-best-practices/resource-abbreviations)
 
@@ -36,7 +35,7 @@ Dette gir da følgende innhold i ressurs-gruppen:
 
 ## Key Vault
 
-Legge inn connection strings fra SignalR, Storage Account og Service Bus (Kan gjerne lag ny shared access policy med begrensede rettighter) i Key Vault og gi dem følgende navn:
+Legge inn connection strings fra SignalR, Storage Account og Service Bus (Kan gjerne lag ny shared access policy med begrensede rettighter) i Key-vault og gi dem følgende navn:
 
 - AzureSignalRConnectionString
 - AzureWebJobsStorage
@@ -71,6 +70,9 @@ Dersom func-en har rettigheter til å lese fra Key Vault vil det se slik ut:
 
 Legg inn url til frontend eller \* (!)
 
+Dersom func-en har rettigheter til å lese fra key-vault vil det se slik ut
+![Config](func-config.png)
+
 ## Frontend
 
 Legg til ny miljøvariabel i github workflow:
@@ -90,5 +92,25 @@ Benytt publish både på "Flight.API" og så på "Notification".
 ## Table storage
 
 Alle subscriptions blir lagret her:
+
+=======
+Legg inn url til frontend eller \* (!)
+
+## Git hub actions
+
+LEgg til ny miljævariebel i github workflow:
+**REACT_APP_SIGNAL_R_NEGOTIATE_URL**
+
+Urlen er på formatet: **https://<funcnavn>/api/flightnotifications/negotiate/**
+
+(flightnotifications er hubnavn)
+
+## Deploy kode
+
+### Visual studio 2019
+
+Benytt publish både på "Flight.API" og så på "Notification".
+
+## Table storage
 
 ![Table storage](table-storage.png)
