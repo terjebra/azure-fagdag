@@ -70,7 +70,7 @@ Gå til ditt private repo-et og finn katalogen **.github/workflows** og åpne wo
 
 #### Eksempelfil:
 
-```
+```yml
 name: Azure Static Web Apps CI/CD
 
 on:
@@ -119,7 +119,6 @@ jobs:
         with:
           azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_SALMON_PLANT_072AB0203 }}
           action: "close"
-
 ```
 
 ### App Service
@@ -139,7 +138,7 @@ Dette generere en workflow yml-fil. Denne må muligens modiferes noe. Se over f�
 
 #### Eksempelfil:
 
-```
+```yml
 # Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
 # More GitHub Actions for Azure: https://github.com/Azure/actions
 
@@ -168,13 +167,13 @@ jobs:
       - name: Set up .NET Core
         uses: actions/setup-dotnet@v1
         with:
-         dotnet-version: ${{ env.DOTNET_CORE_VERSION }}
+          dotnet-version: ${{ env.DOTNET_CORE_VERSION }}
 
       - name: Restore
         run: dotnet restore "${{ env.WORKING_DIRECTORY }}"
 
       - name: Build with dotnet
-        run:  dotnet build "${{ env.WORKING_DIRECTORY }}" --configuration ${{ env.CONFIGURATION }} --no-restore
+        run: dotnet build "${{ env.WORKING_DIRECTORY }}" --configuration ${{ env.CONFIGURATION }} --no-restore
 
       - name: dotnet publish
         run: dotnet publish "${{ env.WORKING_DIRECTORY }}" --configuration ${{ env.CONFIGURATION }} --no-build --output "${{ env.AZURE_WEBAPP_PACKAGE_PATH }}"
@@ -182,14 +181,14 @@ jobs:
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v2
         with:
-         name: webapp
-         path: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
+          name: webapp
+          path: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
 
   deploy:
     runs-on: windows-latest
     needs: build
     environment:
-      name: 'Production'
+      name: "Production"
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
 
     steps:
@@ -204,8 +203,7 @@ jobs:
         uses: azure/webapps-deploy@v2
         with:
           app-name: ${{ env.AZURE_WEBAPP_NAME }}
-          slot-name: 'Production'
+          slot-name: "Production"
           publish-profile: ${{ secrets.APP_FLIGHT_API_FAGDAG_TERJE_C143}}
           package: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
-
 ```
