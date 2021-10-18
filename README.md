@@ -82,8 +82,10 @@ Ellers finner man bra dokumentasjon på Microsoft sine sider.
 
 Utvid lønsingen og legg til flere Azure tjenester i løsningen. Feks:
 
-- Lagre logoer til flyselskaper i blob container
+- Implementer broadcasting av beskjeder
+- Nattlig ryddejobb som tømmer Azure Table Storage
 - Nattlig jobb som henter dagens flydata og lagrer for fremtidig bruk
+- Lagre logoer til flyselskaper i blob container
 - Lagre data i SQL, NoSql eller Data Lake for videre prossesering
 - Machine Learning eller annen analyse
-- Script infrastruktur
+- Script hele infrastrukturen
