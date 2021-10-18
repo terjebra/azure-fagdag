@@ -1,4 +1,12 @@
-import { Container, Paper, Box, Avatar, Typography, Chip } from "@mui/material";
+import {
+  Container,
+  Paper,
+  Box,
+  Avatar,
+  Typography,
+  Chip,
+  Snackbar,
+} from "@mui/material";
 import { useParams } from "react-router";
 import { useGetFlights } from "../useGetFlights";
 import { Direction } from "../types";
@@ -8,7 +16,6 @@ import FlightLandIcon from "@mui/icons-material/FlightLand";
 import FlightTakeoffIcon from "@mui/icons-material/FlightTakeoff";
 import { useSubscribeToFlightChange } from "../useSubscribeToFlightChange";
 import FlashOnIcon from "@mui/icons-material/FlashOn";
-
 type RouteParams = {
   airport: string;
 };
@@ -17,6 +24,7 @@ const Flights = () => {
   const { data: flights } = useGetFlights(airport);
   const { data: airports } = useGetAirports();
   const { mutate } = useSubscribeToFlightChange();
+
   return (
     <Container
       sx={{

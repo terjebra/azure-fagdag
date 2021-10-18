@@ -6,10 +6,11 @@ import {
 } from "@microsoft/signalr";
 import { useEffect, useState } from "react";
 import { config } from "./config";
+import { useAuth } from "./useAuth";
 
 export const useSignalR = (id: string) => {
   const [state, setState] = useState<HubConnection | null>(null);
-
+  const auth = useAuth();
   useEffect(() => {
     if (id) {
       (async () => {
@@ -17,6 +18,7 @@ export const useSignalR = (id: string) => {
           method: "post",
           headers: {
             "x-user-id": id,
+            Authorization: `Bearer ${auth.token}`,
           },
         });
 

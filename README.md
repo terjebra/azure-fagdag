@@ -211,12 +211,19 @@ jobs:
           action: "close"
 ```
 
+## Azure Function autentisering
+
+For å beskytte HTTP-trigger Azure Function-en benyttes App Service autentisering elelr Easy-Auth. Gå inn på Function Appen. Velg **Authentication** og trykk på **Add Identity Provider**. Velg eksisterende App registration og velg **Flight API FagDag** (Kunne opprettet egen også).
+![Easy auth](easy-auth.png)
+
+Trykk **Add**.
+
+Velg "Edit" og legg inn **Audience** (API-SCOPE), fra forrige branch, under **Allowed token audiences**.
+
 ## Table storage
 
 Alle subscriptions blir lagret her. Last ned [her](https://azure.microsoft.com/en-us/features/storage-explorer/) og gå til tabellen **subscriptions** for å se data.
 
 Legg inn url til frontend eller \* (!)
-
-## Table storage
 
 ![Table storage](table-storage.png)
