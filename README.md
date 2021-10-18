@@ -83,33 +83,136 @@ Urlen er på formatet: **https://`<funcnavn>`/api/flightnotifications/negotiate/
 
 (flightnotifications er navnet på hub-en)
 
-## Deploy kode
+## CI/CD
 
-### Visual studio 2019
+### Function App
 
-Benytt publish både på "Flight.API" og så på "Notification".
+Beskrivelsen nedefor tar utgangspunkt i dette [dokumentet](https://docs.microsoft.com/en-us/azure/azure-functions/functions-how-to-github-actions?tabs=dotnet)
 
-## Table storage
+Gå til Function App og velg **Deployment Center** og sett opp Github-konto
 
-Alle subscriptions blir lagret her:
+![CI/CD](ci-cd--func-app.png)
 
-=======
-Legg inn url til frontend eller \* (!)
+Dette generere en workflow yml-fil. Denne må muligens modiferes noe. Se over følgende:
 
-## Git hub actions
+- DOTNET_CORE_VERSION 2.2
+- Endre workingdirectory som passer katalogstrukturenen din
 
-LEgg til ny miljævariebel i github workflow:
+#### Eksempelfil
+
+```yml
+# Docs for the Azure Web Apps Deploy action: https://github.com/azure/functions-action
+# More GitHub Actions for Azure: https://github.com/Azure/actions
+
+name: Build and deploy dotnet core app to Azure Function App - func-flights-fagdag-terje
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+env:
+  AZURE_FUNCTIONAPP_PACKAGE_PATH: "Notification" # set this to the path to your web app project, defaults to the repository root
+  DOTNET_VERSION: "2.2.402"
+
+jobs:
+  build-and-deploy:
+    runs-on: windows-latest
+    steps:
+      - name: "Checkout GitHub Action"
+        uses: actions/checkout@v2
+
+      - name: Setup DotNet ${{ env.DOTNET_VERSION }} Environment
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: ${{ env.DOTNET_VERSION }}
+
+      - name: "Resolve Project Dependencies Using Dotnet"
+        shell: pwsh
+        run: |
+          pushd './${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}'
+          dotnet build --configuration Release --output ./output
+          popd
+
+      - name: "Run Azure Functions Action"
+        uses: Azure/functions-action@v1
+        id: fa
+        with:
+          app-name: "func-flights-fagdag-terje"
+          slot-name: "Production"
+          package: "${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}/output"
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_F4C258C64B714F8288475FC33BF61303 }}
+```
+
+### WebApp workflow
+
+Legg til ny miljøvariebel i github workflow:
+
 **REACT_APP_SIGNAL_R_NEGOTIATE_URL**
 
 Urlen er på formatet: **https://<funcnavn>/api/flightnotifications/negotiate/**
 
 (flightnotifications er hubnavn)
 
-## Deploy kode
+Gir da følgende fil:
 
-### Visual studio 2019
+```yml
+name: Azure Static Web Apps CI/CD
 
-Benytt publish både på "Flight.API" og så på "Notification".
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    types: [opened, synchronize, reopened, closed]
+    branches:
+      - main
+
+jobs:
+  build_and_deploy_job:
+    if: github.event_name == 'push' || (github.event_name == 'pull_request' && github.event.action != 'closed')
+    runs-on: ubuntu-latest
+    name: Build and Deploy Job
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          submodules: true
+      - name: Build And Deploy
+        id: builddeploy
+        uses: Azure/static-web-apps-deploy@v1
+        with:
+          azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_SALMON_PLANT_072AB0203 }}
+          repo_token: ${{ secrets.GITHUB_TOKEN }} # Used for Github integrations (i.e. PR comments)
+          action: "upload"
+          ###### Repository/Build Configurations - These values can be configured to match your app requirements. ######
+          # For more information regarding Static Web App workflow configurations, please visit: https://aka.ms/swaworkflowconfig
+          app_location: "/" # App source code path
+          api_location: "" # Api source code path - optional
+          output_location: "" # Built app content directory - optional
+          ###### End of Repository/Build Configurations ######
+        env:
+          REACT_APP_FLIGHT_API_URL: "https://`<url>`/api"
+          REACT_APP_SIGNAL_R_NEGOTIATE_URL: "https://`<url>`/api/flightnotifications/negotiate/"
+
+  close_pull_request_job:
+    if: github.event_name == 'pull_request' && github.event.action == 'closed'
+    runs-on: ubuntu-latest
+    name: Close Pull Request Job
+    steps:
+      - name: Close Pull Request
+        id: closepullrequest
+        uses: Azure/static-web-apps-deploy@v1
+        with:
+          azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_SALMON_PLANT_072AB0203 }}
+          action: "close"
+```
+
+## Table storage
+
+Alle subscriptions blir lagret her. Last ned [her](https://azure.microsoft.com/en-us/features/storage-explorer/) og gå til tabellen **subscriptions** for å se data.
+
+Legg inn url til frontend eller \* (!)
 
 ## Table storage
 
