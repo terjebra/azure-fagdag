@@ -58,6 +58,8 @@ Flight.Api benytter **Application Insights** . Legg inn Application Insights ins
 Gå til app service og legge til ur-len til Key Vault:
 ![Key vault url ](app-service-config.png)
 
+Nb!Se CI/CD oppsett nedenfor. Dette kan også legges inn i yml-filen. Ser [her](https://docs.microsoft.com/en-us/azure/azure-app-configuration/concept-github-action) for mer info.
+
 ## Github Actions: CI/CD oppsett
 
 ### WebApp
