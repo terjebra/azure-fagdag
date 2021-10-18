@@ -1,6 +1,6 @@
 # WebApp og API med autentisering
 
-Denne branchen fortsetter fra forrige. I denne branchen er Azure AD autentisering slått på
+Denne branchen fortsetter fra forrige. I denne branchen er Azure AD autentisering slått på|
 
 ## Autentisering
 
@@ -13,6 +13,8 @@ Det er blitt opprett to Azure AD App registrering-er, **Flight App Fagdag** og *
 ![Perm app reg](permissions.png)
 
 WebAppen ber om token slik at den kalle benytte seg av WebAPI-en.
+
+Send meg URL-en til webappen slik at jeg får lagt inn gyldig callback url.
 
 ## WebApp
 
