@@ -76,12 +76,14 @@ Webapp hvor bruker velger flyplass og får opp alle flights fra angitt flyplass.
 - Pluralsight-kurs
   - [Microsoft Azure for .NET Developers - Cloud Patterns and Architecture](https://www.pluralsight.com/courses/microsoft-azure-dotnet-cloud-architecture-update)
 
-Ellers finner man bra dokumentasjon generelt på Microsoft sine sider.
+Ellers finner man bra dokumentasjon på Microsoft sine sider.
 
 ### Videre
 
-Legg til flere Azure tjenester i løsningen. Feks:
+Utvid lønsingen og legg til flere Azure tjenester i løsningen. Feks:
 
+- Lagre logoer til flyselskaper i blob container
 - Nattlig jobb som henter dagens flydata og lagrer for fremtidig bruk
 - Lagre data i SQL, NoSql eller Data Lake for videre prossesering
 - Machine Learning eller annen analyse
+- Script infrastruktur
