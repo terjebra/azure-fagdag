@@ -1,11 +1,10 @@
 using System;
 using Azure.Identity;
-using Flight.Api;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 
-namespace Avinor.Api
+namespace Flight.Api
 {
     public class Program
     {
