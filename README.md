@@ -70,9 +70,6 @@ Dersom func-en har rettigheter til å lese fra Key Vault vil det se slik ut:
 
 Legg inn url til frontend eller \* (!)
 
-Dersom func-en har rettigheter til å lese fra key-vault vil det se slik ut
-![Config](func-config.png)
-
 ## Frontend
 
 Legg til ny miljøvariabel i github workflow:
