@@ -2,36 +2,9 @@
 
 Denne branchen inneholder kode for en enkel webapp som benytter Flight.Api for å hente data. (Ligger også et Weather.APApiI her som også kan benyttes og integreres i løsningen)
 
-## Github Actions: CI/CD oppsett
+## Før du starter
 
 Lag to private repoer som skal benyttes til å lage CI/CD pipline for frontend og backend (Kan gjerne lage et også).
-
-### Frontend
-
-WebAppen deployes til en Azure Static WebApp som benytter private repo på Github for å sette opp en CI/CD pipeline. Lag derfor et privat repo på github, legg til frontend-koden, commit og push. Under opprettelsen av Azure Static WebApp blir du bedt om å git Azure tilgang til dette repoet for å sette opp Github-actions.
-
-Det kan være du må gjøre justering på workin directory for filen som automatisk genereres under opprettelse av Static Web.
-
-### Backend
-
-Dette krever noe oppsett fra Github. Dersom man ikke ønsker dette, kan man publisere fra Visual Studio 2019
-
-#### Azure AD
-
-Dette må gjøres først: https://docs.microsoft.com/en-us/azure/developer/github/connect-from-azure
-
-#### App-service
-
-Gå til App-Service og velg **Deployment Center** og sett opp Github-konto
-
-![CI/CD](ci-cd-backend.png)
-
-#### Endre workflow detaljer
-
-Dette generere en workflow yml-fil. Denne må modiferes noe:
-
-- Sett donet version 5.0.402
-- Endre workingdirectory til katalogstrukturenen din
 
 ## Azure konfigurasjon
 
@@ -85,12 +58,32 @@ Flight.Api benytter **Application Insights** . Legg inn Application Insights ins
 Gå til app service og legge til ur-len til Key Vault:
 ![Key vault url ](app-service-config.png)
 
-## Github action
+## Github Actions: CI/CD oppsett
 
-Gå til ditt private repo-et og finn katalogen **.github/workflows** og åpne workflow for frontend-appen. Der legger du inn URL-en til API-et som en miljøvariabel som Create-React-App leser ved bygging av frontenden:
+### WebApp
+
+WebAppen deployes til en Azure Static WebApp som benytter private repo på Github for å sette opp en CI/CD pipeline. Lag derfor et privat repo på github, legg til frontend-koden, commit og push. Under opprettelsen av Azure Static WebApp blir du bedt om å git Azure tilgang til dette repoet for å sette opp Github-actions.
+
+Det kan være du må gjøre justering på working directory for filen som automatisk genereres under opprettelse av Static Web.
+
+Gå til ditt private repo-et og finn katalogen **.github/workflows** og åpne workflow for frontend-appen. Der legger du inn URL-en til API-et som en miljøvariabel som Create-React-App leser ved bygging av frontenden.
+
+#### Eksempelfil:
 
 ```
-   build_and_deploy_job:
+name: Azure Static Web Apps CI/CD
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    types: [opened, synchronize, reopened, closed]
+    branches:
+      - main
+
+jobs:
+  build_and_deploy_job:
     if: github.event_name == 'push' || (github.event_name == 'pull_request' && github.event.action != 'closed')
     runs-on: ubuntu-latest
     name: Build and Deploy Job
@@ -112,5 +105,107 @@ Gå til ditt private repo-et og finn katalogen **.github/workflows** og åpne wo
           output_location: "" # Built app content directory - optional
           ###### End of Repository/Build Configurations ######
         env:
-          REACT_APP_FLIGHT_API_URL: "https://<uri>/api"
+          REACT_APP_FLIGHT_API_URL: "https://`<url>`/api"
+          REACT_APP_SIGNAL_R_NEGOTIATE_URL: "https://<url>`/api/flightnotifications/negotiate/"
+
+  close_pull_request_job:
+    if: github.event_name == 'pull_request' && github.event.action == 'closed'
+    runs-on: ubuntu-latest
+    name: Close Pull Request Job
+    steps:
+      - name: Close Pull Request
+        id: closepullrequest
+        uses: Azure/static-web-apps-deploy@v1
+        with:
+          azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_SALMON_PLANT_072AB0203 }}
+          action: "close"
+
+```
+
+### App Service
+
+Dette krever noe mer oppsett. Dersom man ikke ønsker dette, kan man publisere fra Visual Studio 2019. Beskrivelsen her tar utgangspunkt i dette [dokumentet](https://docs.microsoft.com/en-us/azure/app-service/deploy-github-actions?tabs=applevel) beskriver hvordan man går frem.
+
+#### App-service
+
+Gå til App-Service og velg **Deployment Center** og sett opp Github-konto
+
+![CI/CD](ci-cd-backend.png)
+
+Dette generere en workflow yml-fil. Denne må muligens modiferes noe. Se over følgende:
+
+- DOTNET_CORE_VERSION
+- Endre workingdirectory som passer katalogstrukturenen din
+
+#### Eksempelfil:
+
+```
+# Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
+# More GitHub Actions for Azure: https://github.com/Azure/actions
+
+name: Build and deploy ASP.Net Core app to Azure Web App - app-flight-api-fagdag-terje
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+env:
+  AZURE_WEBAPP_NAME: app-flight-api-fagdag-terje
+  AZURE_WEBAPP_PACKAGE_PATH: .\publish
+  CONFIGURATION: Release
+  DOTNET_CORE_VERSION: 5.0.x
+  WORKING_DIRECTORY: Flight.Api
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Set up .NET Core
+        uses: actions/setup-dotnet@v1
+        with:
+         dotnet-version: ${{ env.DOTNET_CORE_VERSION }}
+
+      - name: Restore
+        run: dotnet restore "${{ env.WORKING_DIRECTORY }}"
+
+      - name: Build with dotnet
+        run:  dotnet build "${{ env.WORKING_DIRECTORY }}" --configuration ${{ env.CONFIGURATION }} --no-restore
+
+      - name: dotnet publish
+        run: dotnet publish "${{ env.WORKING_DIRECTORY }}" --configuration ${{ env.CONFIGURATION }} --no-build --output "${{ env.AZURE_WEBAPP_PACKAGE_PATH }}"
+
+      - name: Upload artifact for deployment job
+        uses: actions/upload-artifact@v2
+        with:
+         name: webapp
+         path: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
+
+  deploy:
+    runs-on: windows-latest
+    needs: build
+    environment:
+      name: 'Production'
+      url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
+
+    steps:
+      - name: Download artifact from build job
+        uses: actions/download-artifact@v2
+        with:
+          name: webapp
+          path: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
+
+      - name: Deploy to Azure Web App
+        id: deploy-to-webapp
+        uses: azure/webapps-deploy@v2
+        with:
+          app-name: ${{ env.AZURE_WEBAPP_NAME }}
+          slot-name: 'Production'
+          publish-profile: ${{ secrets.APP_FLIGHT_API_FAGDAG_TERJE_C143}}
+          package: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
+
 ```
