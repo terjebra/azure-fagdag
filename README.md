@@ -218,7 +218,7 @@ For å beskytte HTTP-trigger Azure Function-en benyttes App Service autentiserin
 
 Trykk **Add**.
 
-Velg "Edit" og legg inn **Audience** (API-SCOPE), fra forrige branch, under **Allowed token audiences**.
+Velg "Edit" og legg inn **Audience** (Application ID URI fra **Flight API FagDag**), fra forrige branch, under **Allowed token audiences**.
 
 ## Table storage
 
