@@ -38,7 +38,7 @@ export const useSignalR = (id: string) => {
         });
       })();
     }
-  }, [id]);
+  }, [id, auth.token]);
 
   return state;
 };

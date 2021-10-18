@@ -1,12 +1,4 @@
-import {
-  Container,
-  Paper,
-  Box,
-  Avatar,
-  Typography,
-  Chip,
-  Snackbar,
-} from "@mui/material";
+import { Container, Paper, Box, Avatar, Typography, Chip } from "@mui/material";
 import { useParams } from "react-router";
 import { useGetFlights } from "../useGetFlights";
 import { Direction } from "../types";
