@@ -18,7 +18,7 @@ Send meg URL-en til webappen slik at jeg får lagt inn gyldig callback url.
 
 ## WebApp
 
-Gå inn på **Flight App Fagdag** under App Registrations i Azure AD. Hent ut **ClientId** og **TentantId** og **Webapi scope** for **Flight App Fagdag**.
+Gå inn på **Flight App Fagdag** under App Registrations i Azure AD. Hent ut **ClientId** og **TenantId** og **Webapi scope** for **Flight App Fagdag**.
 Legg inn **REACT_APP_CLIENT_ID** og **REACT_APP_TENANT_ID**, **REACT_APP_API_SCOPE** i Github-workflowen.
 
 ### Eksempelfil
@@ -78,6 +78,6 @@ jobs:
 
 ## API
 
-Gå inn på **Flight Api Fagdag** og hent ut **TenantId** samt **Application ID URI** (under _Expose an API_). Lag henholdsvis to ny secrets i KeyVault: **AzureAd--TentantId** og **AzureAd--Audience**.
+Gå inn på **Flight Api Fagdag** og hent ut **TenantId** samt **Application ID URI** (under _Expose an API_). Lag henholdsvis to ny secrets i KeyVault: **AzureAd--TenantId** og **AzureAd--Audience**.
 
 Restart App Servicen.
