@@ -26,7 +26,6 @@ const App = () => {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      console.log("clear");
       setNotifications([]);
     }, 5000);
     return () => clearInterval(interval);

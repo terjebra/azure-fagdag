@@ -12,7 +12,6 @@ export const useSignalR = (id: string) => {
 
   useEffect(() => {
     if (id) {
-      debugger;
       (async () => {
         const response = await fetch(config.signalrNegoiateUrl, {
           method: "post",
