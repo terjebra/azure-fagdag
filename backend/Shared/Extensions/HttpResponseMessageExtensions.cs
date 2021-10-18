@@ -12,8 +12,10 @@ namespace Shared.Extensions
         {
             var serializer = new XmlSerializer(typeof(T));
             var responseBody = await message.Content.ReadAsStringAsync();
-            using var stringReader = new StringReader(responseBody);
-            return (T) serializer.Deserialize(stringReader);
+            using (var stringReader = new StringReader(responseBody))
+            {
+                return (T) serializer.Deserialize(stringReader);
+            }
         }
     }
 }
