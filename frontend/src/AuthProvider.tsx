@@ -1,16 +1,18 @@
 import React, { useEffect } from "react";
-import { config } from "./config";
 import { useAccount, useIsAuthenticated, useMsal } from "@azure/msal-react";
+import { config } from "./config";
 type Dispatch = (action: Action) => void;
 
 export type State = {
   isAuthenticated: boolean;
   token: string | null;
+  id: string | null;
 };
 
 const AuthContext = React.createContext<State>({
   isAuthenticated: false,
   token: null,
+  id: null,
 });
 
 const AuthDispatchContext = React.createContext<Dispatch | undefined>(
@@ -24,6 +26,7 @@ export enum ActionType {
 
 type AuthenticateAction = {
   token: string;
+  id: string;
   type: ActionType.Authenticate;
 };
 type UnauthenticatedAction = {
@@ -35,12 +38,12 @@ type Action = AuthenticateAction | UnauthenticatedAction;
 const authReducer = (_state: State, action: Action) => {
   switch (action.type) {
     case ActionType.Authenticate:
-      return { isAuthenticated: true, token: action.token };
+      return { isAuthenticated: true, token: action.token, id: action.id };
     case ActionType.Unauthenticated: {
-      return { isAuthenticated: false, token: "" };
+      return { isAuthenticated: false, token: "", id: null };
     }
     default:
-      return { isAuthenticated: false, token: "" };
+      return { isAuthenticated: false, token: "", id: null };
   }
 };
 
@@ -48,20 +51,16 @@ const AuthProvider: React.FC = (props) => {
   const { instance, accounts, inProgress } = useMsal();
   const isAuthenticated = useIsAuthenticated();
   const account = useAccount(accounts[0] || {});
+
   useEffect(() => {
     if (!isAuthenticated && inProgress === "none") {
       const login = async () => {
         await instance.loginRedirect({
-          scopes: [
-            "User.Read",
-            "api://c71dfb8a-c3ed-4ffa-9056-ffeec249cae5/Read.All",
-          ],
+          scopes: ["User.Read"],
         });
       };
 
-      if (!config.disableAuth) {
-        login();
-      }
+      login();
     }
   }, [isAuthenticated, inProgress, instance]);
 
@@ -69,11 +68,15 @@ const AuthProvider: React.FC = (props) => {
     if (account) {
       instance
         .acquireTokenSilent({
-          scopes: ["profile"],
+          scopes: [config.apiScope],
           account: account,
         })
         .then((response) => {
           dispatch({
+            id:
+              response.account && response.account.idTokenClaims
+                ? (response.account.idTokenClaims as any).oid
+                : "",
             token: response.accessToken,
             type: ActionType.Authenticate,
           });
@@ -82,8 +85,9 @@ const AuthProvider: React.FC = (props) => {
   }, [account, instance]);
 
   const [state, dispatch] = React.useReducer(authReducer, {
-    isAuthenticated: true,
+    isAuthenticated: false,
     token: "",
+    id: "",
   });
 
   return (

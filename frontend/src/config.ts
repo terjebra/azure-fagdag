@@ -3,8 +3,7 @@ type Config = {
   clientId: string;
   tenantId: string;
   signalrNegoiateUrl: string;
-  userId: string;
-  disableAuth: boolean;
+  apiScope: string;
 };
 
 const config: Config = {
@@ -12,8 +11,7 @@ const config: Config = {
   clientId: process.env.REACT_APP_CLIENT_ID as string,
   tenantId: process.env.REACT_APP_ID as string,
   signalrNegoiateUrl: process.env.REACT_APP_SIGNAL_R_NEGOTIATE_URL as string,
-  userId: Math.random().toString(36).substr(2, 9),
-  disableAuth: true,
+  apiScope: process.env.REACT_APP_API_SCOPE as string,
 };
 
 export { config };

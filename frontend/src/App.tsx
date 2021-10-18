@@ -2,10 +2,9 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Main from "./Pages/Main";
 import Flights from "./Pages/Flights";
 import { useAuth } from "./useAuth";
-import { Snackbar } from "@mui/material";
+import { Container, Snackbar } from "@mui/material";
 import { useSignalR } from "./useSignalR";
 import { useEffect, useState } from "react";
-import { config } from "./config";
 import { Flight } from "./types";
 
 const App = () => {
@@ -13,7 +12,8 @@ const App = () => {
 
   const [notifications, setNotifications] = useState<Flight[]>([]);
   const [isOpen, setIsOpen] = useState<boolean>(true);
-  const connection = useSignalR(config.userId);
+
+  const connection = useSignalR(auth.id!);
 
   useEffect(() => {
     connection?.on("flights", (data: string) => {
@@ -37,7 +37,17 @@ const App = () => {
   });
 
   if (!auth.isAuthenticated) {
-    return <div>Auth..</div>;
+    return (
+      <Container
+        sx={{
+          display: "grid",
+          placeItems: "center",
+          height: "100vh",
+          bgcolor: "primary.light",
+          minWidth: "100%",
+        }}
+      ></Container>
+    );
   }
   return (
     <div>

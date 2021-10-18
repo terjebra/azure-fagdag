@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Flight.Api.Domain.Flights;
 using Flight.Api.Domain.FlightSubscriptions.Commands;
@@ -26,8 +27,15 @@ namespace Flight.Api.Controllers.Flights
         [HttpPost("airports/{airport}/flights/{flightId}/subscriptions")]
         public async Task<ActionResult<IList<ApiFlight>>> CreateSubscriptions(string airport, string flightId)
         {
-            var userId = Request.Headers["x-user-id"].ToString();
-            await _sender.Send(new CreateFlightSubscription(userId, flightId, airport));
+            var oid = User.Claims.FirstOrDefault(x => x.Type == "http://schemas.microsoft.com/identity/claims/objectidentifier");
+
+            if (oid == null)
+            {
+                return BadRequest();
+            }
+
+          
+            await _sender.Send(new CreateFlightSubscription(oid.Value, flightId, airport));
             return Ok();
         }
     }

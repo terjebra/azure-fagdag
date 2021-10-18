@@ -8,7 +8,6 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Identity.Web;
 using Microsoft.OpenApi.Models;
 using Shared.Services.Avinor;
 
@@ -52,18 +51,17 @@ namespace Flight.Api
             });
 
             services.AddApplicationInsightsTelemetry();
-
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-                .AddMicrosoftIdentityWebApi(Configuration.GetSection("AzureAd"));
-
-            //services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-            //    .AddJwtBearer(c =>
-            //    {
-            //        c.Authority = $"https://login.microsoftonline.com/c317fa72-b393-44ea-a87c-ea2728d963d";
-            //    });
+                .AddJwtBearer(c =>
+                {
+                    c.TokenValidationParameters.ValidAudiences = new[]
+                    {
+                        Configuration.GetValue<string>("AzureAd:Audience")
+                    };
+                    c.Authority = $"https://login.microsoftonline.com/{Configuration.GetValue<string>("AzureAd:TenantId")}";
+                });
 
             services.AddScoped<IServiceBus, ServiceBus>();
-
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -81,12 +79,14 @@ namespace Flight.Api
             app.UseRouting();
 
             app.UseCors(Cors);
-            
+
+            app.UseAuthentication();
+
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapControllers();
+                endpoints.MapControllers().RequireAuthorization();
             });
         }
     }

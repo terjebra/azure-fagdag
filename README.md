@@ -194,6 +194,9 @@ jobs:
         env:
           REACT_APP_FLIGHT_API_URL: "https://`<url>`/api"
           REACT_APP_SIGNAL_R_NEGOTIATE_URL: "https://`<url>`/api/flightnotifications/negotiate/"
+          REACT_APP_CLIENT_ID: "xx"
+          REACT_APP_TENANT_ID: "yy"
+          REACT_APP_API_SCOPE: "api://`<id>`/Read.All"
 
   close_pull_request_job:
     if: github.event_name == 'pull_request' && github.event.action == 'closed'
