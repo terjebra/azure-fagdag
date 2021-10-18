@@ -78,6 +78,8 @@ namespace Flight.Api
 
             app.UseCors(Cors);
 
+            app.UseAuthentication();
+
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
