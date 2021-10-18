@@ -66,9 +66,18 @@ For hver av dem referer til Key Vault slik:
 Dersom func-en har rettigheter til å lese fra Key Vault vil det se slik ut:
 ![Config](func-config.png)
 
-## CORS
+### CORS
 
 Legg inn url til frontend eller \* (!)
+
+### Azure Function autentisering
+
+For å beskytte HTTP-trigger Azure Function-en benyttes App Service autentisering elelr Easy-Auth. Gå inn på Function Appen. Velg **Authentication** og trykk på **Add Identity Provider**. Velg eksisterende App registration og velg **Flight API FagDag** (Kunne opprettet egen også).
+![Easy auth](easy-auth.png)
+
+Trykk **Add**.
+
+Velg "Edit" og legg inn **Audience** (Application ID URI fra **Flight API FagDag**), fra forrige branch, under **Allowed token audiences**.
 
 ## Frontend
 
@@ -88,7 +97,7 @@ Beskrivelsen nedefor tar utgangspunkt i dette [dokumentet](https://docs.microsof
 
 Gå til Function App og velg **Deployment Center** og sett opp Github-konto
 
-![CI/CD](ci-cd--func-app.png)
+![CI/CD](ci-cd-func-app.png)
 
 Dette generere en workflow yml-fil. Denne må muligens modiferes noe. Se over følgende:
 
@@ -207,15 +216,6 @@ jobs:
           azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_SALMON_PLANT_072AB0203 }}
           action: "close"
 ```
-
-## Azure Function autentisering
-
-For å beskytte HTTP-trigger Azure Function-en benyttes App Service autentisering elelr Easy-Auth. Gå inn på Function Appen. Velg **Authentication** og trykk på **Add Identity Provider**. Velg eksisterende App registration og velg **Flight API FagDag** (Kunne opprettet egen også).
-![Easy auth](easy-auth.png)
-
-Trykk **Add**.
-
-Velg "Edit" og legg inn **Audience** (Application ID URI fra **Flight API FagDag**), fra forrige branch, under **Allowed token audiences**.
 
 ## Table storage
 
