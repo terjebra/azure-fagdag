@@ -122,7 +122,7 @@ on:
 
 env:
   AZURE_FUNCTIONAPP_PACKAGE_PATH: "Notification" # set this to the path to your web app project, defaults to the repository root
-  DOTNET_VERSION: "2.2.402"
+  DOTNET_VERSION: "3.1"
 
 jobs:
   build-and-deploy:
@@ -222,7 +222,5 @@ jobs:
 ## Table storage
 
 Alle subscriptions blir lagret her. Last ned [her](https://azure.microsoft.com/en-us/features/storage-explorer/) og gå til tabellen **subscriptions** for å se data.
-
-Legg inn url til frontend eller \* (!)
 
 ![Table storage](table-storage.png)
