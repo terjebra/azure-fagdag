@@ -50,7 +50,7 @@ Gir lese-rettigheter (Get og List) til Key Vault for App Service:
 
 ## Key Vault secret
 
-Flight.Api benytter **Application Insights** . Legg inn Application Insights instrumentation nøkkel i key-vaulten og gi den navnet **ApplicationInsights--InstrumentationKey**.
+Flight.Api benytter **Application Insights** . Legg inn Application Insights instrumentation nøkkel (finner den i ai-ressursen du oppretet tidligere) i Key Vault og gi secret-en navnet **ApplicationInsights--InstrumentationKey** (Dette er standard navn som benyttes av .NET-applikasjonen)
 ![Key vault secret ](key-vault-secret.png)
 
 ## App Service konfigurasjon
