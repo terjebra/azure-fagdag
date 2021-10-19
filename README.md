@@ -68,7 +68,7 @@ Dersom func-en har rettigheter til å lese fra Key Vault vil det se slik ut:
 
 ### CORS
 
-Legg inn url til frontend eller \* (!)
+Under fanden **CORS** Legg inn url til webapp eller benytt \* (!)
 
 ### Azure Function autentisering
 
@@ -79,13 +79,15 @@ Trykk **Add**.
 
 Velg "Edit" og legg inn **Audience** (Application ID URI fra **Flight API FagDag**), fra forrige branch, under **Allowed token audiences**.
 
+Obs! Kan være at dere mangler tilgang. Kontakt meg.
+
 ## Frontend
 
 Legg til ny miljøvariabel i github workflow:
 
 **REACT_APP_SIGNAL_R_NEGOTIATE_URL**
 
-Urlen er på formatet: **https://`<funcnavn>`/api/flightnotifications/negotiate/**
+Urlen er på formatet: **`<funcnavnurl>`/api/flightnotifications/negotiate/**
 
 (flightnotifications er navnet på hub-en)
 
@@ -157,7 +159,7 @@ Legg til ny miljøvariebel i github workflow:
 
 **REACT_APP_SIGNAL_R_NEGOTIATE_URL**
 
-Urlen er på formatet: **https://<funcnavn>/api/flightnotifications/negotiate/**
+Urlen er på formatet: **`<funcnavn>`/api/flightnotifications/negotiate/**
 
 (flightnotifications er hubnavn)
 
