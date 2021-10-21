@@ -72,7 +72,7 @@ Under fanden **CORS** Legg inn url til webapp eller benytt \* (!)
 
 ### Azure Function autentisering
 
-For å beskytte HTTP-trigger Azure Function-en benyttes App Service autentisering elelr Easy-Auth. Gå inn på Function Appen. Velg **Authentication** og trykk på **Add Identity Provider**. Velg eksisterende App registration og velg **Flight API FagDag** (Kunne opprettet egen også).
+For å beskytte HTTP-trigger Azure Function-en benyttes App Service autentisering eller Easy-Auth. Gå inn på Function Appen. Velg **Authentication** og trykk på **Add Identity Provider**. Velg eksisterende App registration og velg **Flight API FagDag** (Kunne opprettet egen også).
 ![Easy auth](easy-auth.png)
 
 Trykk **Add**.
